@@ -1,4 +1,5 @@
 import os
+from django.template import Context, Template
 
 BASE_SETTINGS = [
     {
