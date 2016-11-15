@@ -60,9 +60,16 @@ def handle_extends_blocks(content, seen_templates={}):
         full_block = match.group(0)
         block_values[block_name] = full_block
 
+    # We need to bring up any load tags that aren't in block content.
+    # Start by getting all content that isn't in a block, then get the load
+    # tags
+    outside_of_blocks = re.sub(block_regex, "", content)
+    load_tags = {}
+    for match in re.finditer('{%\s*load\s+.*?%}', outside_of_blocks):
+        load_tags[match.group(0)] = True
+
     # Now replace any blocks in the parent content with those blocks, and
     # return the parent content
-
     def replace_block(match):
         block_name = match.group(1)
         if block_name in block_values:
@@ -71,7 +78,10 @@ def handle_extends_blocks(content, seen_templates={}):
         return match.group(0)
 
     content = re.sub(block_regex, replace_block, parent_content)
-    return content
+
+    # Now we add any loose load tags back in to the top of the page
+    load_content = "".join(sorted(load_tags.keys()))
+    return "%s%s" % (load_content, content)
 
 
 def handle_includes(content, seen_templates={}):

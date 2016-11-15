@@ -28,3 +28,12 @@ class TestExtendBlock(TestCase):
         content = '{% include "extends/recursive.html" %}'
         result = process_template_content(content)
         self.assertEquals(result, content)
+
+    def test_load_tag_outside_of_block(self):
+        content = '{% include "extends/load_tag_out_of_block.html" %}'
+        result = process_template_content(content)
+
+        correct = ('{% load another more from app.templatetags %}'
+                   '{% load i18n %}Before {% block content %}'
+                   'The content{% endblock %} After\n')
+        self.assertEquals(result, correct)
