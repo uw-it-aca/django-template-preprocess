@@ -25,7 +25,8 @@ def process_template_content(content, seen_templates={}, subcall=False):
 
     if not subcall:
         try:
-            content = handle_compress(content)
+            content = handle_handlebars(content)
+            content = handle_statics_compress(content)
             content = handle_minify(content)
         except Exception as ex:
             raise
@@ -94,7 +95,11 @@ def handle_includes(content, seen_templates={}):
     return content
 
 
-def handle_compress(content):
+def handle_handlebars(content):
+    return content
+
+
+def handle_statics_compress(content):
     return content
 
 
