@@ -18,6 +18,12 @@ class Command(BaseCommand):
             except OSError:
                 pass
 
-            source_path = templates[template]
             if template == "index.html":
+                source_path = templates[template]
+                with open(source_path) as source_handle:
+                    content = source_handle.read()
+                    content = process_template_content(content)
+
+                    with open(destination_path, "w") as destination_handle:
+                        destination_handle.write(content)
                 print "T: ", template, source_path, destination_path
