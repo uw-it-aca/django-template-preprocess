@@ -1,0 +1,14 @@
+sudo: false
+language: python
+services:
+  - memcached
+python:
+  - "2.7"
+  - "3.4"
+before_script:
+  - pip install pep8
+  - pip install Django==1.10.*
+  - cp travis-ci/manage.py manage.py
+script:
+  - pep8 template_preprocess
+  - python manage.py test template_preprocess
