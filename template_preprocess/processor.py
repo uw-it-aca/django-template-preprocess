@@ -4,7 +4,7 @@ from slimmer import html_slimmer
 
 
 def process_template_content(content,
-                             seen_templates={},
+                             seen_templates=None,
                              subcall=False,
                              is_html=False):
     # The basic strategy here is to build the template up to it's full
@@ -13,6 +13,8 @@ def process_template_content(content,
     # dependency order.
     # If anything fails, just return the original template.  Worse case is
     # django's default behavior.
+    if seen_templates is None:
+        seen_templates = {}
     original_content = content
 
     try:
@@ -47,7 +49,7 @@ def handle_extends_blocks(content, seen_templates={}):
     name = matches.group(1)
 
     if name in seen_templates:
-        raise Exception("Recursive template in extends")
+        raise Exception("Recursive template in extends - %s" % (str(seen_templates) ))
 
     seen_templates[name] = True
 
@@ -104,7 +106,7 @@ def handle_includes(content, seen_templates={}):
                                            subcall=True)
         return content
 
-    content = re.sub(r'{%\s*include\s*"([^"]+)"\s*%}',
+    content = re.sub(r"""{%\s*include\s*['"]([^"']+?)["']\s*%}""",
                      insert_template,
                      content)
     return content

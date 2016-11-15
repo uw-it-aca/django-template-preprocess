@@ -26,4 +26,4 @@ class Command(BaseCommand):
 
                     with open(destination_path, "w") as destination_handle:
                         destination_handle.write(content)
-                print "T: ", template, source_path, destination_path
+                print ("T: ", template, source_path, destination_path)
