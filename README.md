@@ -28,6 +28,11 @@ TEMPLATES = [
 ]
 
 
+Add 'template_preprocess' to your INSTALLED_APPS, and you can run:
+
+  python manage.py preprocess_templates
+
+
 Currently supports:
 
 

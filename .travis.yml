@@ -8,6 +8,7 @@ python:
 before_script:
   - pip install pep8
   - pip install Django==1.10.*
+  - pip install -e .
   - cp travis-ci/manage.py manage.py
 script:
   - pep8 template_preprocess
