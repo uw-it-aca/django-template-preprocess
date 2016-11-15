@@ -21,7 +21,6 @@ class TestIncludeBlock(TestCase):
 
         self.assertEquals(result, "included template\n")
 
-
     def test_nested(self):
         content = '{%include "includes/nested_1.html"%}'
         result = process_template_content(content)

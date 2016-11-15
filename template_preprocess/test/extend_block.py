@@ -37,3 +37,11 @@ class TestExtendBlock(TestCase):
                    '{% load i18n %}Before {% block content %}'
                    'The content{% endblock %} After\n')
         self.assertEquals(result, correct)
+
+    def test_multiline_block(self):
+        content = '{% include "extends/multiline.html" %}'
+        result = process_template_content(content)
+
+        correct = 'Before {%block ok%}Line 1\nLine 2{%endblock%}\n'
+
+        self.assertEquals(result, correct)

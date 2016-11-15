@@ -49,7 +49,7 @@ def handle_extends_blocks(content, seen_templates={}):
     name = matches.group(1)
 
     if name in seen_templates:
-        raise Exception("Recursive template in extends - %s" % (str(seen_templates) ))
+        raise Exception("Recursive template in extends")
 
     seen_templates[name] = True
 
@@ -62,7 +62,7 @@ def handle_extends_blocks(content, seen_templates={}):
     # in the parent template
     block_values = {}
     block_regex = r'{%\s*block\s+([^ ]+)\s*%}(.*?){%\s*endblock\s*\w*\s*%}'
-    for match in re.finditer(block_regex, content, re.MULTILINE):
+    for match in re.finditer(block_regex, content, re.DOTALL):
         block_name = match.group(1)
         full_block = match.group(0)
         block_values[block_name] = full_block
