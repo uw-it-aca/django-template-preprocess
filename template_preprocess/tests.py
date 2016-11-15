@@ -1,2 +1,3 @@
 from template_preprocess.test.include import TestIncludeBlock
 from template_preprocess.test.extend_block import TestExtendBlock
+from template_preprocess.test.minify import TestHTMLMinify

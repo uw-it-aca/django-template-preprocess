@@ -1,8 +1,12 @@
 import re
 from template_preprocess.util.loader import Loader
+from slimmer import html_slimmer
 
 
-def process_template_content(content, seen_templates={}, subcall=False):
+def process_template_content(content,
+                             seen_templates={},
+                             subcall=False,
+                             is_html=False):
     # The basic strategy here is to build the template up to it's full
     # included/extended size, then work on the minimizing or precomputing
     # content from there.  That makes it multi-pass, but it avoids having a
@@ -26,8 +30,9 @@ def process_template_content(content, seen_templates={}, subcall=False):
     if not subcall:
         try:
             content = handle_handlebars(content)
-            content = handle_statics_compress(content)
-            content = handle_minify(content)
+            if is_html:
+                content = handle_statics_compress(content)
+                content = handle_html_minify(content)
         except Exception as ex:
             raise
 
@@ -113,5 +118,5 @@ def handle_statics_compress(content):
     return content
 
 
-def handle_minify(content):
-    return content
+def handle_html_minify(content):
+    return html_slimmer(content)
