@@ -137,11 +137,9 @@ def handle_handlebars(content):
 def handle_static_tag(content):
     def replace_static_url(match):
         template_string = "{% load static %}"+match.group(0)
-        print "TS: ", template_string
         t = Template(template_string)
         c = Context({})
         value = t.render(c)
-        print "V: ", value
         return value
 
     content = re.sub(r'{%\s*static\s*[^%]+?%}',
@@ -173,8 +171,6 @@ def handle_html_minify(content):
         closing_blocks.append(match.group(0))
 
         return "{{__%s__}}" % (len(closing_blocks))
-        print match.group(0)
-        return match.group(0)
 
     def replace_closing_handlebars(match):
         return closing_blocks[int(match.group(1))-1]
