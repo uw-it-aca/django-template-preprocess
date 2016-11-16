@@ -1,3 +1,6 @@
+[![Build Status](https://api.travis-ci.org/vegitron/django-template-preprocess.svg?branch=master)](https://travis-ci.org/vegitron/django-template-preprocess)
+[![Coverage Status](https://coveralls.io/repos/github/vegitron/django-template-preprocess/badge.svg?branch=master)](https://coveralls.io/github/vegitron/django-template-preprocess?branch=master)
+
 Django Template Preprocessor
 ============================
 
