@@ -1,6 +1,6 @@
 import re
 from template_preprocess.util.loader import Loader
-from slimmer import html_slimmer
+import htmlmin
 
 
 def process_template_content(content,
@@ -88,7 +88,7 @@ def handle_extends_blocks(content, seen_templates={}):
 
     # Now we add any loose load tags back in to the top of the page
     load_content = "".join(sorted(load_tags.keys()))
-    return "%s%s" % (load_content, content)
+    return u"%s%s" % (load_content, content)
 
 
 def handle_includes(content, seen_templates={}):
@@ -108,7 +108,8 @@ def handle_includes(content, seen_templates={}):
 
     content = re.sub(r"""{%\s*include\s*['"]([^"']+?)["']\s*%}""",
                      insert_template,
-                     content)
+                     content, flags=re.UNICODE)
+
     return content
 
 
@@ -121,4 +122,4 @@ def handle_statics_compress(content):
 
 
 def handle_html_minify(content):
-    return html_slimmer(content)
+    return htmlmin.minify(content)

@@ -10,7 +10,8 @@ template_settings = get_test_template_settings()
 @override_settings(**template_settings)
 class TestHTMLMinify(TestCase):
     def test_minify_fragment(self):
-        content = "<b>  <i></i>   \n</b>"
+        # Needs to be unicode content from htmlmin
+        content = u"<b>  <i ></i>   \n</b>"
         result = process_template_content(content, is_html=True)
 
-        self.assertEquals(result, "<b><i></i></b>")
+        self.assertEquals(result, "<b> <i></i> </b>")

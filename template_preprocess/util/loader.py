@@ -2,6 +2,7 @@ from importlib import import_module
 from django.template import engines
 from django.utils.encoding import smart_text
 from fnmatch import fnmatch
+import codecs
 import re
 import os
 
@@ -84,7 +85,7 @@ class Loader(object):
 
     def get_template_content(self, template):
         path = self.get_template_path(template)
-        with open(path) as handle:
+        with codecs.open(path, encoding="utf-8") as handle:
             content = handle.read()
         return content
 
