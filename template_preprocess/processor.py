@@ -42,7 +42,6 @@ def process_template_content(content,
                              template_processor=process_sub_template,
                              )
         except Exception as ex:
-            print "E: ", ex
             # We want to return the original template content if there are any
             # errors.  if we're processing an include/extended template, we
             # need to kick it back another level
