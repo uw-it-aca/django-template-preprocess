@@ -1,6 +1,7 @@
-import re
 from template_preprocess.util.loader import Loader
+from django.template import Template, Context
 import htmlmin
+import re
 
 
 def process_template_content(content,
@@ -31,10 +32,13 @@ def process_template_content(content,
 
     if not subcall:
         try:
-            content = handle_handlebars(content)
             if is_html:
                 content = handle_statics_compress(content)
                 content = handle_html_minify(content)
+                content = handle_static_tag(content)
+            # minify won't minify content in <script> tags, so this needs
+            # to be the last thing done
+            content = handle_handlebars(content)
         except Exception as ex:
             raise
 
@@ -114,12 +118,74 @@ def handle_includes(content, seen_templates={}):
 
 
 def handle_handlebars(content):
+    def replace_handlebars(match):
+        template_string = ("{% load templatetag_handlebars %}"
+                           "{% load static %}"+match.group(0))
+        t = Template(template_string)
+        c = Context({})
+        value = t.render(c)
+        return "{% verbatim %}" + value + "{% endverbatim %}"
+
+    regex = r'{%\s*tplhandlebars\s+[^\s]+\s*%}(.*?){%\s*endtplhandlebars\s*%}'
+    content = re.sub(regex,
+                     replace_handlebars,
+                     content, flags=re.DOTALL)
+
+    return content
+
+
+def handle_static_tag(content):
+    def replace_static_url(match):
+        template_string = "{% load static %}"+match.group(0)
+        print "TS: ", template_string
+        t = Template(template_string)
+        c = Context({})
+        value = t.render(c)
+        print "V: ", value
+        return value
+
+    content = re.sub(r'{%\s*static\s*[^%]+?%}',
+                     replace_static_url,
+                     content, flags=re.DOTALL)
+
     return content
 
 
 def handle_statics_compress(content):
+    def replace_compress_block(match):
+        template_string = "{% load compress %}{% load static %}"+match.group(0)
+        t = Template(template_string)
+        c = Context({})
+        value = t.render(c)
+        return value
+
+    content = re.sub(r'{%\s*compress\s+\w+\s*%}(.*?){%\s*endcompress\s*%}',
+                     replace_compress_block,
+                     content, flags=re.DOTALL)
+
     return content
 
 
 def handle_html_minify(content):
-    return htmlmin.minify(content)
+    closing_blocks = []
+
+    def sub_closing_handlebars(match):
+        closing_blocks.append(match.group(0))
+
+        return "{{__%s__}}" % (len(closing_blocks))
+        print match.group(0)
+        return match.group(0)
+
+    def replace_closing_handlebars(match):
+        return closing_blocks[int(match.group(1))-1]
+
+    # handlebars templates get mangled by htmlmin.  but... we want them to be
+    # minified, because in some apps that's most of the content.  this protects
+    # the closing tag in at least one case where they'd be changed.
+    content = re.sub(r'{{\s*/\s*\w+\s*}}', sub_closing_handlebars, content)
+
+    minified = htmlmin.minify(content, remove_comments=True)
+
+    # Put the closing tags back in
+    content = re.sub(r'{{__(\d+)__}}', replace_closing_handlebars, minified)
+    return content

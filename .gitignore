@@ -102,3 +102,6 @@ ENV/
 /pip-selfcheck.json
 /doc
 /share
+
+# unconfigured offline compression
+/static

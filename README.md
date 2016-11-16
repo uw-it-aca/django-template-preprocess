@@ -38,11 +38,12 @@ Currently supports:
 
 * Extended templates with block content
 * Includes
-* HTML slimming
+* HTML minification
+* Django-compressor blocks
+* django-templatetag-handlebars
+* static url tags
 
 Coming up(?):
 
-* Django-compressor blocks
-* django-templatetag-handlebars
 
 
