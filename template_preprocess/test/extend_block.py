@@ -16,7 +16,7 @@ class TestExtendBlock(TestCase):
         correct = ('Before {% block inserted_content %}The Block'
                    '{%endblock inserted_content%} {% block block2 %}'
                    'Block 2{%endblock block2 %} {% block notreplaced %}'
-                   'In wrapper{%endblock%} After\n')
+                   'In wrapper{%endblock%} After ')
         self.assertEquals(result, correct)
 
     def test_extends_missing_template(self):
@@ -35,13 +35,13 @@ class TestExtendBlock(TestCase):
 
         correct = ('{% load another more from app.templatetags %}'
                    '{% load i18n %}Before {% block content %}'
-                   'The content{% endblock %} After\n')
+                   'The content{% endblock %} After ')
         self.assertEquals(result, correct)
 
     def test_multiline_block(self):
         content = '{% include "extends/multiline.html" %}'
         result = process_template_content(content)
 
-        correct = 'Before {%block ok%}Line 1\nLine 2{%endblock%}\n'
+        correct = 'Before {%block ok%}Line 1 Line 2{%endblock%} '
 
         self.assertEquals(result, correct)

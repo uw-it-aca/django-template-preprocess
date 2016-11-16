@@ -13,19 +13,19 @@ class TestIncludeBlock(TestCase):
         content = '{%include "includes/include1.html"%}'
         result = process_template_content(content)
 
-        self.assertEquals(result, "included template\n")
+        self.assertEquals(result, "included template ")
 
     def test_single_quotes(self):
         content = "{%include 'includes/include1.html'%}"
         result = process_template_content(content)
 
-        self.assertEquals(result, "included template\n")
+        self.assertEquals(result, "included template ")
 
     def test_nested(self):
         content = '{%include "includes/nested_1.html"%}'
         result = process_template_content(content)
 
-        self.assertEquals(result, "1 2\n\n")
+        self.assertEquals(result, "1 2 ")
 
     def test_recursion(self):
         content = '{%include "includes/include_recursion.html"%}'
