@@ -18,6 +18,15 @@ def process(content, seen_templates, template_processor):
     # the closing tag in at least one case where they'd be changed.
     content = re.sub(r'{{\s*/\s*\w+\s*}}', sub_closing_handlebars, content)
 
+    # template variables need to stay quoted, in case their value
+    # is empty - value="{{ z }}" type="text" can end up as
+    # value= type=text.
+    content = re.sub(r'"\s*{{.*?}}\s*"', sub_closing_handlebars, content)
+    content = re.sub(r"'\s*{{.*?}}\s*'", sub_closing_handlebars, content)
+
+    # Django template statemetns inside tags get compressed in bad ways
+    content = re.sub(r'{%.*?%}', sub_closing_handlebars, content)
+
     minified = htmlmin.minify(content, remove_comments=True)
 
     # Put the closing tags back in

@@ -29,3 +29,20 @@ class TestHTMLMinify(TestCase):
                    'class=five-day {{ /if }}></div>')
 
         self.assertEquals(result, correct)
+
+    def test_django_statement_safety(self):
+        content = (u"""<b {% if search.quarter == 'summer' %} """
+                   """selected="selected"{% endif %} />""")
+
+        result = process_template_content(content, is_html=True)
+
+        self.assertEquals(result, (u"<b {% if search.quarter == 'summer' %}"
+                                   " selected=selected {% endif %}/>"))
+
+        content = u"""<input type="text" value="{{ foo.bar }}">"""
+        result = process_template_content(content, is_html=True)
+        self.assertEquals(result, '<input type=text value="{{ foo.bar }}">')
+
+        content = u"""<input type="text" value='{{ foo.bar }}'>"""
+        result = process_template_content(content, is_html=True)
+        self.assertEquals(result, "<input type=text value='{{ foo.bar }}'>")
