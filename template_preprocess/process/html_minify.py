@@ -31,4 +31,7 @@ def process(content, seen_templates, template_processor):
 
     # Put the closing tags back in
     content = re.sub(r'{{__(\d+)__}}', replace_closing_handlebars, minified)
+
+    # If they were nested... put the second layer back in
+    content = re.sub(r'{{__(\d+)__}}', replace_closing_handlebars, content)
     return content

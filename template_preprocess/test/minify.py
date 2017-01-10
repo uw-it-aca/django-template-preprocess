@@ -46,3 +46,10 @@ class TestHTMLMinify(TestCase):
         content = u"""<input type="text" value='{{ foo.bar }}'>"""
         result = process_template_content(content, is_html=True)
         self.assertEquals(result, "<input type=text value='{{ foo.bar }}'>")
+
+    def test_nested_statement_safety(self):
+        content = u"""<div class="{{#if a}}a{{else}}b{{/if}}">"""
+
+        result = process_template_content(content, is_html=True)
+
+        self.assertEquals(result, '<div class="{{#if a}}a{{else}}b{{/if}}">')
