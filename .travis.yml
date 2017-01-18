@@ -10,6 +10,7 @@ before_script:
   - pip install python-coveralls
   - pip install pep8
   - pip install Django==1.10.*
+  - pip install django-compressor
   - pip install -e .
   - cp travis-ci/manage.py manage.py
 script:

@@ -10,7 +10,7 @@ def process(content, seen_templates, template_processor):
         value = t.render(c)
         return value
 
-    content = re.sub(r'{%\s*compress\s+\w+\s*%}(.*?){%\s*endcompress\s*%}',
+    content = re.sub(r'{%\s*compress\s+.*?%}(.*?){%\s*endcompress\s*%}',
                      replace_compress_block,
                      content, flags=re.DOTALL)
 
