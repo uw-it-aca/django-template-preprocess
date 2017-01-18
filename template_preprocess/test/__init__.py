@@ -22,7 +22,7 @@ def get_test_template_settings():
             'COMPRESS_ENABLED': True,
             'COMPRESS_OFFLINE': False,
             'COMPRESS_ROOT': './compress-test',
-            'STATICFILES_DIRS': [ static_path ],
+            'STATICFILES_DIRS': [static_path],
             'STATICFILES_FINDERS': finders,
             'STATIC_URL': '/static/',
-             }
+            }

@@ -4,7 +4,7 @@ services:
   - memcached
 python:
   - "2.7"
-  - "3.4"
+  - "3.6"
 before_script:
   - pip install coverage
   - pip install python-coveralls
