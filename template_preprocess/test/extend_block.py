@@ -29,6 +29,12 @@ class TestExtendBlock(TestCase):
         result = process_template_content(content)
         self.assertEquals(result, content)
 
+    def test_nested_blocks(self):
+        content = '{% include "extends/nested.html" %}'
+        result = process_template_content(content)
+        self.assertEquals(result,
+                          '{% block a %}{% block b %}{% endblock b %}{% endblock %} ')
+
     def test_load_tag_outside_of_block(self):
         content = '{% include "extends/load_tag_out_of_block.html" %}'
         result = process_template_content(content)
