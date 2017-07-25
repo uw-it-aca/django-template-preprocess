@@ -17,7 +17,7 @@ def handle_extends(content, seen_templates, template_processor):
     # Build a hash of block names to content, and then fill them in
     # in the parent template
     block_values = {}
-    block_regex = r'{%\s*block\s+([^ ]+)\s*%}(.*?){%\s*endblock\s*\w*\s*%}'
+    block_regex = r'{%\s*block\s+([^ ]+)\s*%}(.*?){%\s*endblock\s*(\1|)\s*%}'
     for match in re.finditer(block_regex, content, re.DOTALL):
         block_name = match.group(1)
         full_block = match.group(0)
