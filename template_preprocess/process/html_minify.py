@@ -27,7 +27,8 @@ def process(content, seen_templates, template_processor):
     # Django template statemetns inside tags get compressed in bad ways
     content = re.sub(r'{%.*?%}', sub_closing_handlebars, content)
 
-    minified = htmlmin.minify(content, remove_comments=True)
+    minified = htmlmin.minify(content, remove_comments=True,
+                              remove_optional_attribute_quotes=False)
 
     # Put the closing tags back in
     content = re.sub(r'{{__(\d+)__}}', replace_closing_handlebars, minified)
