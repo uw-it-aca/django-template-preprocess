@@ -8,6 +8,7 @@ template_settings = get_test_template_settings()
 
 @override_settings(**template_settings)
 class TestCompressTag(TestCase):
+    # comment to trigger travis
     def test_basic(self):
         content = ('{% compress css %}<link rel="stylesheet" '
                    'href="/static/foo.css">{% endcompress %}')
