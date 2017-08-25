@@ -12,10 +12,9 @@ def process(content, seen_templates, template_processor):
         template_string = ("{% load templatetag_handlebars %}"
                            "{% load static %}"+match.group(0))
 
-        try:
-            handlebars_variables = settings.EXEMPT_HANDLEBARS_VARIABLES
-        except Exception:
-            handlebars_variables = DEFAULT_EXEMPT_HANDLEBARS_VARIABLES
+        handlebars_variables = getattr(settings,
+                                       'EXEMPT_HANDLEBARS_VARIABLES',
+                                       DEFAULT_EXEMPT_HANDLEBARS_VARIABLES)
 
         for variable in handlebars_variables:
             target_regex = r"{%\s*" + variable + "\s*%}"
