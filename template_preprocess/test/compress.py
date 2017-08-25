@@ -14,7 +14,7 @@ class TestCompressTag(TestCase):
         result = process_template_content(content, is_html=True)
 
         self.assertEquals(('<link rel=stylesheet href=/static/CACHE/'
-                           'css/e9e1f7d8b808.css type=text/css>'), result)
+                           'css/ac65f98df823.css type=text/css>'), result)
 
     def test_inline(self):
         content = ('{% compress css inline %}<link rel="stylesheet" '
