@@ -105,3 +105,4 @@ ENV/
 
 # unconfigured offline compression
 /static
+.idea/
