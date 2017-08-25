@@ -14,7 +14,7 @@ before_script:
   - pip install -e .
   - cp travis-ci/manage.py manage.py
 script:
-  - pep8 template_preprocess
+  - pep8 --exclude=template_preprocess/tests template_preprocess
   - coverage run --source=template_preprocess/ manage.py test template_preprocess
 after_script:
 - coveralls

@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'compressor',
     'template_preprocess',
+    'templatetag_handlebars',
 )
 
 MIDDLEWARE_CLASSES = (
