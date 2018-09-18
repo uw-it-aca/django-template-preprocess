@@ -18,15 +18,15 @@ class TestHTMLMinify(TestCase):
 
     def test_handlebars_safety(self):
         content = (u'<div {{#if has_6_days}}class="six-day"{{else}}'
-                   'class="five-day"{{/if}}></div>'
-                   '<div {{#if has_6_days}}class="six-day"{{else}}'
-                   'class="five-day"{{ /if }}></div>')
+                   u'class="five-day"{{/if}}></div>'
+                   u'<div {{#if has_6_days}}class="six-day"{{else}}'
+                   u'class="five-day"{{ /if }}></div>')
         result = process_template_content(content, is_html=True)
 
         correct = (u'<div {{#if has_6_days}}class=six-day {{else}}'
-                   'class=five-day {{/if}}></div>'
-                   '<div {{#if has_6_days}}class=six-day {{else}}'
-                   'class=five-day {{ /if }}></div>')
+                   u'class=five-day {{/if}}></div>'
+                   u'<div {{#if has_6_days}}class=six-day {{else}}'
+                   u'class=five-day {{ /if }}></div>')
 
         self.assertEquals(result, correct)
 
@@ -35,9 +35,9 @@ class TestHTMLMinify(TestCase):
                    """selected="selected"{% endif %} />""")
 
         result = process_template_content(content, is_html=True)
-
-        self.assertEquals(result, (u"<b {% if search.quarter == 'summer' %}"
-                                   " selected=selected {% endif %}/>"))
+        expected = (u"<b {% if search.quarter == 'summer' %} "
+                    u"selected=selected {% endif %} />")
+        self.assertEquals(result, expected)
 
         content = u"""<input type="text" value="{{ foo.bar }}">"""
         result = process_template_content(content, is_html=True)

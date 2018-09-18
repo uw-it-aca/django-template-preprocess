@@ -28,7 +28,7 @@ def handle_extends(content, seen_templates, template_processor):
     # tags
     outside_of_blocks = re.sub(block_regex, "", content)
     load_tags = {}
-    for match in re.finditer('{%\s*load\s+.*?%}', outside_of_blocks):
+    for match in re.finditer(r'{%\s*load\s+.*?%}', outside_of_blocks):
         load_tags[match.group(0)] = True
 
     # Now replace any blocks in the parent content with those blocks, and

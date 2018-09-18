@@ -11,7 +11,7 @@ from template_preprocess.processor import process_template_content
 class Command(BaseCommand):
     def handle(self, *args, **options):
         templates = get_templates()
-        l = Loader()
+        ldr = Loader()
         for template in templates:
             destination_path = os.path.join(settings.COMPILED_TEMPLATE_PATH,
                                             template)
@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 pass
 
             if True or template == "index.html":
-                content = l.get_template_content(template)
+                content = ldr.get_template_content(template)
                 is_html = filename_is_html(template)
                 content = process_template_content(content,
                                                    is_html=is_html)

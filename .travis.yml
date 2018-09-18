@@ -1,20 +1,27 @@
 sudo: false
 language: python
-services:
-  - memcached
 python:
-  - "2.7"
-  - "3.6"
+- "3.6"
 before_script:
-  - pip install coverage
-  - pip install python-coveralls
-  - pip install pep8
-  - pip install Django==1.10.*
-  - pip install django-compressor
-  - pip install -e .
-  - cp travis-ci/manage.py manage.py
+- pip install -e .
+- pip install pycodestyle
+- pip install coverage
+- pip install python-coveralls
+- cp travis-ci/manage.py manage.py
 script:
-  - pep8 template_preprocess
-  - coverage run --source=template_preprocess/ manage.py test template_preprocess
+- pycodestyle template_preprocess
+- coverage run --source=template_preprocess/ manage.py test template_preprocess
 after_script:
 - coveralls
+before_deploy:
+- find template_preprocess/ -name \*.pyc -exec rm {} \;
+- echo $TRAVIS_TAG > template_preprocess/VERSION
+deploy:
+  provider: pypi
+  user: uw-it-aca
+  skip_cleanup: true
+  password:
+    secure: VrsBZeGt2sYGH5RUw2y9OsYAZYpjJqM2w9PWGp0zkxC4zFuUO+lhGxRhrmWbjcc2YHLxdRXGz4sOOqrRKmzTJO69umzrNBhM744Btm54MPkY28V9gpSs1l/9PxUleLihVdCQraT+yNzE4T9k2AQ9vDbQG4aWWe5BjBzAvvLVTNrX3LT58J5lh2KwuueA5tFvS8JEKd+1rQ/bz0O279ILSEZcLMdM2/SnECbkK+iFRHPRWnUegS+WeTJD8suZ7Tl1SpPcc+0oCx7k/PWvyLksbEkoDX+WtBQR50injNthchAgCzcaRyN+EEwl1g5JNjN+sMBfxpY3V/9nGFdSd7EFJhZ94Bwt2jm9P7eijGJrD+1wzTLP5Vu6dVoOlnHUH7W48adG5GRsst2sqJpemtM/JbmTHdNp3vcMef2J4oi5A4tEvgY9xBSDSZ5PqTpnIQns0dK9rG0nw5cni8JZRegHjc4W2SHN30egvmm5WeXX2UhH3nAMLsdFCeXMTA7V6wFvOHiz+BNUubr34W0Jj1fzHex9USn+7H54V6vW+/Rcylwx4Au3aWBxqrxN7vbyPTI5zLOB1vvRhLU8pk2+peryksWtvqboYWZtRKhWWkNHZwUNxmF/Xqoi0A6jI/JWWhcQ9On6gyuK3sxsC6mGkiDWbS1vl7wdWBxFJo9+uHVpei4=
+  on:
+    tags: true
+    python: '3.6'
