@@ -2,6 +2,8 @@ import os
 from setuptools import setup
 
 README = """
+See the README on `GitHub
+<https://github.com/uw-it-aca/django-template-preprocess>`_.
 """
 
 # The VERSION file is created by travis-ci, based on the tag name
@@ -12,7 +14,7 @@ VERSION = VERSION.replace("\n", "")
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-url = ""
+url = "https://github.com/uw-it-aca/django-template-preprocess"
 setup(
     name='Django-Template-Preprocess',
     version=VERSION,
