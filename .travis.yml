@@ -1,20 +1,27 @@
 sudo: false
 language: python
-services:
-  - memcached
 python:
-  - "2.7"
-  - "3.6"
+- "3.6"
 before_script:
-  - pip install coverage
-  - pip install python-coveralls
-  - pip install pep8
-  - pip install Django==1.10.*
-  - pip install django-compressor
-  - pip install -e .
-  - cp travis-ci/manage.py manage.py
+- pip install -e .
+- pip install pycodestyle
+- pip install coverage
+- pip install python-coveralls
+- cp travis-ci/manage.py manage.py
 script:
-  - pep8 template_preprocess
-  - coverage run --source=template_preprocess/ manage.py test template_preprocess
+- pycodestyle template_preprocess
+- coverage run --source=template_preprocess/ manage.py test template_preprocess
 after_script:
 - coveralls
+before_deploy:
+- find template_preprocess/ -name \*.pyc -exec rm {} \;
+- echo $TRAVIS_TAG > template_preprocess/VERSION
+deploy:
+  provider: pypi
+  user: uw-it-aca
+  skip_cleanup: true
+  password:
+    secure:
+  on:
+    tags: true
+    python: '3.6'

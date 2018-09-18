@@ -84,7 +84,7 @@ def get_processors():
             mod = import_module(module)
         except ImportError as e:
             raise ImproperlyConfigured('Error importing module %s: "%s"' %
-                                       (module, e))
+                                       (module, str(e)))
         try:
             method = getattr(mod, attr)
         except AttributeError:

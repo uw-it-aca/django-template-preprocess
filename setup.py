@@ -21,6 +21,8 @@ setup(
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
+        'Django>2.1,<3.0',
+        'django-compressor',
         'htmlmin',
     ],
     license='Apache License, Version 2.0',
@@ -32,7 +34,7 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
     ],
 )
 
