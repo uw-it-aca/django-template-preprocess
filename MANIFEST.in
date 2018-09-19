@@ -1,0 +1,2 @@
+include template_preprocess/VERSION
+recursive-include template_preprocess *
