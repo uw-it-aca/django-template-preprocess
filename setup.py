@@ -22,6 +22,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'htmlmin',
+        'django-compressor',
+        'Django<2.0'
     ],
     license='Apache License, Version 2.0',
     description=('Cut down on django template CPU time by doing work early.'),

@@ -1,3 +1,4 @@
+import re
 from django.test import TestCase
 from django.test.utils import override_settings
 from template_preprocess.processor import process_template_content
@@ -13,8 +14,10 @@ class TestCompressTag(TestCase):
                    'href="/static/foo.css">{% endcompress %}')
         result = process_template_content(content, is_html=True)
 
-        self.assertEquals(('<link rel=stylesheet href=/static/CACHE/'
-                           'css/e9e1f7d8b808.css type=text/css>'), result)
+        self.assertTrue(
+            re.match(
+                r'<link rel=stylesheet href=/static/CACHE/css/[a-z0-9]+.css',
+                result))
 
     def test_inline(self):
         content = ('{% compress css inline %}<link rel="stylesheet" '
