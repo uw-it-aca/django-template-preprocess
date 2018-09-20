@@ -35,9 +35,9 @@ class TestHTMLMinify(TestCase):
                    """selected="selected"{% endif %} />""")
 
         result = process_template_content(content, is_html=True)
-
-        self.assertEquals(result, (u"<b {% if search.quarter == 'summer' %}"
-                                   " selected=selected {% endif %}/>"))
+        expected = (u"<b {% if search.quarter == 'summer' %} "
+                    u"selected=selected {% endif %} />")
+        self.assertEquals(result, expected)
 
         content = u"""<input type="text" value="{{ foo.bar }}">"""
         result = process_template_content(content, is_html=True)
